@@ -13,11 +13,8 @@ export interface AiConfig {
 const GOOGLE_AI_API_KEY_PATTERN = /^(?:AIzaSy|AQ)\S{8,}$/;
 
 const GEMINI_MODELS = [
-  { id: 'gemini-3.6-flash', label: 'Gemini 3.6 Flash (Khuyến nghị)', description: 'Mới nhất, tốc độ nhanh, chi phí thấp' },
-  { id: 'gemini-3.5-flash', label: 'Gemini 3.5 Flash', description: 'Chất lượng cao, ổn định' },
-  { id: 'gemini-3.5-flash-lite', label: 'Gemini 3.5 Flash Lite', description: 'Siêu nhanh, phù hợp trích xuất' },
-  { id: 'gemini-3.1-flash-lite', label: 'Gemini 3.1 Flash Lite', description: 'Tương thích ngược' },
-  { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', description: 'Dự phòng ổn định' },
+  { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash (Khuyến nghị)', description: 'Nhanh, ổn định, phù hợp tra cứu' },
+  { id: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash Lite', description: 'Nhanh và tiết kiệm chi phí' },
   { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', description: 'Suy luận mạnh, phân tích sâu' },
 ];
 
@@ -36,11 +33,18 @@ const STORAGE_KEYS = {
 };
 
 export const loadAiConfig = (): AiConfig => {
+  const provider = (localStorage.getItem(STORAGE_KEYS.provider) as AiProvider) || 'gemini';
+  const storedModel = localStorage.getItem(STORAGE_KEYS.model);
+  const availableModels = provider === 'gemini' ? GEMINI_MODELS : AGENT_PLATFORM_MODELS;
+  const selectedModel = availableModels.some((model) => model.id === storedModel)
+    ? storedModel!
+    : 'gemini-2.5-flash';
+
   return {
-    provider: (localStorage.getItem(STORAGE_KEYS.provider) as AiProvider) || 'gemini',
+    provider,
     geminiApiKey: localStorage.getItem(STORAGE_KEYS.geminiKey) || '',
     agentPlatformApiKey: localStorage.getItem(STORAGE_KEYS.agentKey) || '',
-    selectedModel: localStorage.getItem(STORAGE_KEYS.model) || 'gemini-3.6-flash',
+    selectedModel,
   };
 };
 
@@ -96,7 +100,7 @@ export const ApiKeySettingsModal: React.FC<ApiKeySettingsModalProps> = ({
   const models = config.provider === 'gemini' ? GEMINI_MODELS : AGENT_PLATFORM_MODELS;
 
   const handleProviderChange = (provider: AiProvider) => {
-    const defaultModel = provider === 'gemini' ? 'gemini-3.6-flash' : 'gemini-2.5-flash';
+    const defaultModel = 'gemini-2.5-flash';
     const currentModel = config.selectedModel;
     const availableModels = provider === 'gemini' ? GEMINI_MODELS : AGENT_PLATFORM_MODELS;
     const modelExists = availableModels.some(m => m.id === currentModel);
@@ -380,7 +384,7 @@ export const ApiKeySettingsModal: React.FC<ApiKeySettingsModalProps> = ({
                   provider: 'gemini',
                   geminiApiKey: '',
                   agentPlatformApiKey: '',
-                  selectedModel: 'gemini-3.6-flash',
+                  selectedModel: 'gemini-2.5-flash',
                 };
                 saveAiConfig(emptyConfig);
                 setConfig(emptyConfig);
