@@ -477,7 +477,7 @@ export const StepResults: React.FC<StepResultsProps> = ({
               Dữ liệu trích từ đề án tuyển sinh chính thức do giáo viên kiểm duyệt. Không bịa điểm chuẩn hay khoa viện.
             </p>
           </div>
-          {aiEnabled && <AiSchoolSearch />}
+          {aiEnabled && <AiSchoolSearch onOpenAiSettings={onOpenAiSettings} />}
         </div>
 
         {/* Disclaimer about benchmark score comparability */}
