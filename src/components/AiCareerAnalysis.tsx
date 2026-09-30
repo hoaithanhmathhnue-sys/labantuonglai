@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, Loader2, X, TrendingUp, Briefcase, GraduationCap, Clock, Target, BookOpen } from 'lucide-react';
+import { loadAiConfig, getActiveApiKey } from './ApiKeySettingsModal';
 
 interface AiCareerInsight {
   overview: string;
@@ -41,6 +42,9 @@ export const AiCareerAnalysis: React.FC<AiCareerAnalysisProps> = ({
     setError(null);
 
     try {
+      const freshConfig = loadAiConfig();
+      const apiKey = getActiveApiKey(freshConfig);
+
       const res = await fetch('/api/ai/career-analysis', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,10 +54,9 @@ export const AiCareerAnalysis: React.FC<AiCareerAnalysisProps> = ({
           categoryName,
           coreSubjects,
           studentGrade,
-          // Load API config from localStorage to send to server
-          apiKey: localStorage.getItem('lbtl_gemini_api_key') || localStorage.getItem('lbtl_agent_platform_api_key') || '',
-          provider: localStorage.getItem('lbtl_ai_provider') || 'gemini',
-          model: localStorage.getItem('lbtl_selected_model') || 'gemini-3.6-flash',
+          apiKey,
+          provider: freshConfig.provider,
+          model: freshConfig.selectedModel,
         }),
       });
 

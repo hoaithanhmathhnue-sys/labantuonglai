@@ -22,6 +22,7 @@ import { StepResults } from './components/StepResults';
 import { TeacherAdminModal } from './components/TeacherAdminModal';
 import { VisitCounter } from './components/VisitCounter';
 import { ApiKeySettingsModal, loadAiConfig, isApiKeyConfigured, AiConfig } from './components/ApiKeySettingsModal';
+import { AiSchoolSearch } from './components/AiSchoolSearch';
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -206,7 +207,14 @@ export default function App() {
 
       <main className="flex-1">
         {currentStep === 1 && (
-          <StepIntro onStart={() => goToStep(2)} />
+          <>
+            <StepIntro onStart={() => goToStep(2)} />
+
+            {/* AI School Search - Section on homepage */}
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-10">
+              <AiSchoolSearch onOpenAiSettings={() => setShowAiSettings(true)} />
+            </div>
+          </>
         )}
 
         {currentStep === 2 && (
