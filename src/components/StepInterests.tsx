@@ -42,7 +42,7 @@ export const StepInterests: React.FC<StepInterestsProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <span className="text-xs font-semibold text-teal-700 bg-teal-50 px-2.5 py-1 rounded border border-teal-200 uppercase tracking-wide">
-              Bước 4: Sở thích & Trải nghiệm
+              Bước 4: Sở thích & trải nghiệm
             </span>
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mt-2">
               Khám phá sở thích qua 12 hoạt động thực tế

@@ -79,7 +79,7 @@ export const StepReview: React.FC<StepReviewProps> = ({
               <span className="text-slate-700">
                 {profile.birthDate
                   ? new Date(profile.birthDate).toLocaleDateString('vi-VN')
-                  : 'Không khai (Tùy chọn)'}
+                  : 'Không khai (tùy chọn)'}
               </span>
             </div>
           </div>
@@ -187,13 +187,13 @@ export const StepReview: React.FC<StepReviewProps> = ({
             <div>
               <span className="text-slate-500 block mb-0.5">Việc từng làm tốt / tự hào:</span>
               <p className="text-slate-800 italic bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                {preferences.proudAchievement?.trim() || 'Chưa ghi (Tùy chọn)'}
+                {preferences.proudAchievement?.trim() || 'Chưa ghi (tùy chọn)'}
               </p>
             </div>
             <div>
               <span className="text-slate-500 block mb-0.5">Lĩnh vực muốn tìm hiểu thử:</span>
               <p className="text-slate-800 font-semibold bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                {preferences.fieldToTry?.trim() || 'Chưa ghi (Tùy chọn)'}
+                {preferences.fieldToTry?.trim() || 'Chưa ghi (tùy chọn)'}
               </p>
             </div>
             <div>

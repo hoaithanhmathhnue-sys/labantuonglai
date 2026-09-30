@@ -66,7 +66,7 @@ export const StepResults: React.FC<StepResultsProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6 print:hidden">
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-teal-800 bg-teal-50 px-2.5 py-1 rounded border border-teal-200">
-            {result.mode === 'verified_ai' ? 'Chế độ Trợ lý Giáo dục AI' : 'Chế độ Phân tích Quy tắc Sư phạm'}
+            {result.mode === 'verified_ai' ? 'Chế độ trợ lý giáo dục AI' : 'Chế độ phân tích quy tắc sư phạm'}
           </span>
           <span className="text-xs text-slate-500">
             Ngày lập: {result.analyzedAt}
@@ -122,7 +122,7 @@ export const StepResults: React.FC<StepResultsProps> = ({
               Bản báo cáo định hướng học tập & nghề nghiệp
             </span>
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-              La Bàn Tương Lai — Dành cho {result.studentDisplayLabel}
+              La bàn tương lai — Dành cho {result.studentDisplayLabel}
             </h1>
             <p className="text-xs text-slate-500 mt-1">
               Tài liệu tham khảo chuyên môn phục vụ trao đổi hướng nghiệp giữa học sinh, giáo viên và gia đình.
@@ -487,7 +487,7 @@ export const StepResults: React.FC<StepResultsProps> = ({
 
         {result.programSuggestions.length === 0 ? (
           <div className="p-6 text-center text-xs text-slate-500 bg-slate-50 rounded-xl border border-slate-200">
-            Hiện chưa có bản ghi tuyển sinh nào khớp với khu vực hoặc bậc học em chọn trong kho dữ liệu đã xác minh. Giáo viên có thể bổ sung thêm trong mục "Góc Giáo viên".
+            Hiện chưa có bản ghi tuyển sinh nào khớp với khu vực hoặc bậc học em chọn trong kho dữ liệu đã xác minh. Giáo viên có thể bổ sung thêm trong mục "Góc giáo viên".
           </div>
         ) : (
           <div className="space-y-4">
@@ -608,7 +608,7 @@ export const StepResults: React.FC<StepResultsProps> = ({
       <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 mb-6 shadow-xs print-break-inside-avoid">
         <h2 className="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
           <HelpCircle className="w-5 h-5 text-teal-600" />
-          3 Câu hỏi gợi mở để em trao đổi với Thầy Cô & Gia đình
+          3 câu hỏi gợi mở để em trao đổi với thầy cô & gia đình
         </h2>
         <p className="text-xs text-slate-500 mb-4">
           Hãy chủ động mở lời với thầy cô chủ nhiệm hoặc cha mẹ bằng những câu hỏi trọng tâm sau:
@@ -629,7 +629,7 @@ export const StepResults: React.FC<StepResultsProps> = ({
       {/* SECTION 7: ETHICAL GUARDRAILS & LIMITATIONS */}
       <div className="p-5 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-600 space-y-2 mb-8">
         <span className="font-bold text-slate-800 block text-xs">
-          Giới hạn trách nhiệm & Nguyên tắc đạo đức nghề nghiệp:
+          Giới hạn trách nhiệm & nguyên tắc đạo đức nghề nghiệp:
         </span>
         <ul className="list-disc pl-4 space-y-1 text-[11px] leading-relaxed">
           {result.limitations.map((lim, idx) => (

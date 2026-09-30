@@ -241,7 +241,7 @@ export const TeacherAdminModal: React.FC<TeacherAdminModalProps> = ({
             </div>
             <div>
               <h3 className="text-base font-bold text-slate-900 leading-tight">
-                Không gian Quản trị Tuyển sinh & Kiểm thử (Dành cho Giáo viên)
+                Không gian Quản trị Tuyển sinh & Kiểm thử (Dành cho giáo viên)
               </h3>
               <p className="text-xs text-slate-500">
                 Quản lý kho dữ liệu tuyển sinh chính thức và chạy các kịch bản kiểm thử sư phạm.

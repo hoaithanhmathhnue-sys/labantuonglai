@@ -59,15 +59,15 @@ export function StepSelfDiscovery({ birthDate, onContinue }: Props) {
 
   const sections = profile
     ? [
-        { key: 'overview', icon: User, label: 'Tổng Quan Tính Cách', content: profile.overview, color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-200' },
-        { key: 'learningStyle', icon: BookOpen, label: 'Phong Cách Học Tập', content: profile.learningStyle, color: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-200' },
-        { key: 'competencies', icon: Brain, label: 'Năng Lực Tập Trung', content: profile.competencies, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-200' },
-        { key: 'motivation', icon: Zap, label: 'Động Lực Học Tập', content: profile.motivation, color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
-        { key: 'mathApproach', icon: Target, label: 'Cách Tiếp Cận Vấn Đề', content: profile.mathApproach, color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-200' },
-        { key: 'strengths', icon: Star, label: 'Điểm Mạnh Nổi Bật', content: profile.strengths, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
-        { key: 'challenges', icon: Shield, label: 'Thách Thức Cần Khắc Phục', content: profile.challenges, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200' },
-        { key: 'learningMethods', icon: Lightbulb, label: 'Phương Pháp Học Hiệu Quả', content: profile.learningMethods, color: 'text-cyan-600', bg: 'bg-cyan-50', border: 'border-cyan-200' },
-        { key: 'environment', icon: TreePine, label: 'Môi Trường Học Tập Lý Tưởng', content: profile.environment, color: 'text-lime-600', bg: 'bg-lime-50', border: 'border-lime-200' },
+        { key: 'overview', icon: User, label: 'Tổng quan tính cách', content: profile.overview, color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-200' },
+        { key: 'learningStyle', icon: BookOpen, label: 'Phong cách học tập', content: profile.learningStyle, color: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-200' },
+        { key: 'competencies', icon: Brain, label: 'Năng lực tập trung', content: profile.competencies, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-200' },
+        { key: 'motivation', icon: Zap, label: 'Động lực học tập', content: profile.motivation, color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
+        { key: 'mathApproach', icon: Target, label: 'Cách tiếp cận vấn đề', content: profile.mathApproach, color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-200' },
+        { key: 'strengths', icon: Star, label: 'Điểm mạnh nổi bật', content: profile.strengths, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+        { key: 'challenges', icon: Shield, label: 'Thách thức cần khắc phục', content: profile.challenges, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200' },
+        { key: 'learningMethods', icon: Lightbulb, label: 'Phương pháp học hiệu quả', content: profile.learningMethods, color: 'text-cyan-600', bg: 'bg-cyan-50', border: 'border-cyan-200' },
+        { key: 'environment', icon: TreePine, label: 'Môi trường học tập lý tưởng', content: profile.environment, color: 'text-lime-600', bg: 'bg-lime-50', border: 'border-lime-200' },
       ]
     : [];
 
@@ -77,10 +77,10 @@ export function StepSelfDiscovery({ birthDate, onContinue }: Props) {
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-100 to-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
           <Sparkles className="w-4 h-4" />
-          Khám Phá Bản Thân
+          Khám phá bản thân
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
-          Hiểu bản thân qua <span className="text-indigo-600">Số Đường Đời</span>
+          Hiểu bản thân qua <span className="text-indigo-600">Số đường đời</span>
         </h2>
         <p className="text-slate-500 text-sm sm:text-base max-w-lg mx-auto">
           Nhập ngày sinh để khám phá tính cách, phong cách học tập và điểm mạnh tiềm ẩn của em.
@@ -190,7 +190,7 @@ export function StepSelfDiscovery({ birthDate, onContinue }: Props) {
                 <Star className="w-5 h-5 text-emerald-600" />
               </div>
               <div>
-                <h4 className="font-bold text-emerald-800 mb-2">Kết Luận & Khuyến Nghị</h4>
+                <h4 className="font-bold text-emerald-800 mb-2">Kết luận & khuyến nghị</h4>
                 <p className="text-sm text-emerald-700 leading-relaxed">{profile.conclusion}</p>
               </div>
             </div>

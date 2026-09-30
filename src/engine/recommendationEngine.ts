@@ -394,7 +394,7 @@ export function runRecommendationEngine(input: EngineInput): AnalysisResult {
     {
       week: 4,
       title: 'Tuần 4: Đối thoại cùng Thầy Cô & Gia đình',
-      action: 'Chủ động chia sẻ bản tóm tắt La Bàn Tương Lai này với thầy cô chủ nhiệm/hướng nghiệp hoặc cha mẹ.',
+      action: 'Chủ động chia sẻ bản tóm tắt La bàn tương lai này với thầy cô chủ nhiệm/hướng nghiệp hoặc cha mẹ.',
       outcome: 'Lắng nghe góc nhìn của người lớn, tháo gỡ lo lắng về chi phí học tập và thống nhất bước chuẩn bị tiếp theo.',
     },
   ];

@@ -13,7 +13,7 @@ const STEP_LABELS = [
   'Hồ sơ tối giản',
   'Khám phá bản thân',
   'Học tập hiện tại',
-  'Sở thích & Trải nghiệm',
+  'Sở thích & trải nghiệm',
   'Xem lại thông tin',
   'Kết quả định hướng',
 ];

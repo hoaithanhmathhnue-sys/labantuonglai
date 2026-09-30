@@ -22,7 +22,7 @@ export const StepIntro: React.FC<StepIntroProps> = ({ onStart }) => {
         </h2>
 
         <p className="text-slate-600 text-base leading-relaxed mb-6">
-          <strong>La Bàn Tương Lai</strong> được thiết kế như một công cụ gợi mở sư phạm, giúp em tự nhìn lại những môn học mình đang học tốt, những hoạt động em thấy hứng thú, và kết nối với các nhóm ngành cùng cơ sở đào tạo có dữ liệu tuyển sinh chính thức tại Việt Nam.
+          <strong>La bàn tương lai</strong> được thiết kế như một công cụ gợi mở sư phạm, giúp em tự nhìn lại những môn học mình đang học tốt, những hoạt động em thấy hứng thú, và kết nối với các nhóm ngành cùng cơ sở đào tạo có dữ liệu tuyển sinh chính thức tại Việt Nam.
         </p>
 
         {/* 4 Core Educational Commitments */}

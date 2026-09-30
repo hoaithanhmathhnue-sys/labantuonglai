@@ -283,7 +283,7 @@ export default function App() {
       <footer className="bg-slate-900 border-t border-slate-700 py-6 px-4 text-center text-xs text-slate-400 print:hidden">
         <div className="max-w-4xl mx-auto flex flex-col items-center gap-3">
           <div>
-            <strong className="text-white">La Bàn Tương Lai</strong> · Công cụ hướng nghiệp học đường THPT
+            <strong className="text-white">La bàn tương lai</strong> · Công cụ hướng nghiệp học đường THPT
           </div>
           <div className="flex items-center gap-3">
             <VisitCounter />

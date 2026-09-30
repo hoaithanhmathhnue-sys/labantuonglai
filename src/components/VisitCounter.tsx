@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // ============================================
-// CẤU HÌNH — Namespace riêng cho La Bàn Tương Lai
+// CẤU HÌNH — Namespace riêng cho La bàn tương lai
 // ============================================
 const APP_NAMESPACE = 'labantuonglai-edugenvn';
 const BASE_VISIT_OFFSET = 1000;

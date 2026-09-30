@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <h1 className="text-lg font-bold tracking-tight text-slate-900 leading-none">
-              La Bàn Tương Lai
+              La bàn tương lai
             </h1>
             <p className="text-xs text-slate-500 hidden sm:block mt-0.5">
               Định hướng học tập & nghề nghiệp THPT
@@ -60,10 +60,10 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={onOpenTeacherAdmin}
             type="button"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-teal-800 bg-teal-50 hover:bg-teal-100 rounded-lg border border-teal-200 transition-colors"
-            title="Dành cho Giáo viên quản lý kho tuyển sinh và kiểm thử"
+            title="Dành cho giáo viên quản lý kho tuyển sinh và kiểm thử"
           >
             <UserCheck className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Góc Giáo viên</span>
+            <span className="hidden sm:inline">Góc giáo viên</span>
             <span className="sm:hidden">Giáo viên</span>
           </button>
 

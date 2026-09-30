@@ -1,7 +1,7 @@
 /**
- * Thần Số Học — Khám Phá Bản Thân
+ * Thần Số Học — Khám phá bản thân
  * Dựa trên dữ liệu từ mymath-main/utils/numerology.ts
- * Tính Số Đường Đời (Life Path Number) từ ngày sinh
+ * Tính Số đường đời (Life Path Number) từ ngày sinh
  * và trả về hồ sơ tính cách, phong cách học tập, điểm mạnh/yếu
  */
 
@@ -32,7 +32,7 @@ const reduceNumber = (num: number): number => {
   return reduceNumber(sum);
 };
 
-// Tính Số Đường Đời từ ngày sinh (dd/mm/yyyy hoặc yyyy-mm-dd)
+// Tính Số đường đời từ ngày sinh (dd/mm/yyyy hoặc yyyy-mm-dd)
 export const calculateLifePath = (dob: string): number => {
   if (!dob) return 0;
   const digits = dob.replace(/\D/g, '');
@@ -47,7 +47,7 @@ export const calculateLifePath = (dob: string): number => {
 // Cơ sở dữ liệu thần số học
 const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>> = {
   1: {
-    title: 'SỐ 1: NGƯỜI TIÊN PHONG',
+    title: 'Số 1: Người tiên phong',
     overview:
       'Độc lập, mạnh mẽ, có ý chí sắt đá. Em sinh ra để dẫn đầu, không thích đi theo lối mòn và luôn muốn khẳng định bản thân.',
     learningStyle: "Tự học, tự nghiên cứu, học qua dự án cá nhân. Thích được giao 'nhiệm vụ' hơn là 'bài tập'.",
@@ -68,7 +68,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Em là một nhà lãnh đạo bẩm sinh. Hãy tận dụng sự độc lập để chinh phục các bài toán khó, nhưng đừng quên lắng nghe sự hướng dẫn khi cần thiết.',
   },
   2: {
-    title: 'SỐ 2: NGƯỜI HÒA GIẢI',
+    title: 'Số 2: Người hòa giải',
     overview:
       'Nhạy cảm, tinh tế, yêu hòa bình. Em là người kết nối tuyệt vời, luôn lắng nghe và thấu hiểu người khác.',
     learningStyle:
@@ -91,7 +91,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Sức mạnh của em nằm ở sự kiên nhẫn và kết nối. Hãy tìm một người bạn đồng hành để việc học trở nên thú vị và bớt áp lực hơn.',
   },
   3: {
-    title: 'SỐ 3: NGƯỜI TRUYỀN CẢM HỨNG',
+    title: 'Số 3: Người truyền cảm hứng',
     overview:
       'Sáng tạo, lạc quan, hoạt ngôn. Em mang lại niềm vui và năng lượng tích cực cho mọi người xung quanh.',
     learningStyle:
@@ -113,7 +113,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Em sở hữu trí tuệ linh hoạt tuyệt vời. Hãy biến các con số khô khan thành những câu chuyện hoặc trò chơi thú vị để phát huy tối đa khả năng.',
   },
   4: {
-    title: 'SỐ 4: NGƯỜI XÂY DỰNG',
+    title: 'Số 4: Người xây dựng',
     overview:
       'Thực tế, kỷ luật, tỉ mỉ. Em là người đáng tin cậy, thích sự rõ ràng và trật tự trong mọi việc.',
     learningStyle:
@@ -136,7 +136,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Sự kiên trì là vũ khí mạnh nhất của em. Hãy giữ vững kỷ luật, nhưng đôi khi hãy cho phép bản thân linh hoạt hơn để tìm ra những giải pháp mới.',
   },
   5: {
-    title: 'SỐ 5: NGƯỜI TỰ DO',
+    title: 'Số 5: Người tự do',
     overview:
       'Yêu tự do, thích khám phá, đa tài. Em ghét sự gò bó và luôn tìm kiếm những trải nghiệm mới lạ, thú vị.',
     learningStyle:
@@ -158,7 +158,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Năng lượng của em là vô tận. Hãy hướng sự tò mò vào việc khám phá các khía cạnh đa dạng của cuộc sống, em sẽ thấy nó không hề nhàm chán.',
   },
   6: {
-    title: 'SỐ 6: NGƯỜI CHĂM SÓC',
+    title: 'Số 6: Người chăm sóc',
     overview:
       'Trách nhiệm, yêu thương, hướng về gia đình. Em luôn quan tâm đến người khác và mong muốn mọi thứ hoàn hảo.',
     learningStyle:
@@ -180,7 +180,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Trái tim nhân hậu là điểm tựa của em. Hãy học tập với tâm thế dùng tri thức để giúp đỡ mọi người, em sẽ tìm thấy động lực to lớn.',
   },
   7: {
-    title: 'SỐ 7: NGƯỜI TRÍ TUỆ',
+    title: 'Số 7: Người trí tuệ',
     overview:
       "Sâu sắc, thích phân tích, tìm tòi chân lý. Em luôn đặt câu hỏi 'Tại sao' và muốn hiểu bản chất gốc rễ của vấn đề.",
     learningStyle:
@@ -203,7 +203,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Em là một nhà tư tưởng bẩm sinh. Hãy dành thời gian yên tĩnh để đào sâu kiến thức, đó là cách em tỏa sáng rực rỡ nhất.',
   },
   8: {
-    title: 'SỐ 8: NGƯỜI LÃNH ĐẠO',
+    title: 'Số 8: Người lãnh đạo',
     overview:
       'Mạnh mẽ, thực tế, tham vọng. Em nhạy bén với các con số, tài chính và luôn hướng tới thành công, địa vị.',
     learningStyle:
@@ -225,7 +225,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Em có tố chất của người đứng đầu. Hãy đặt ra những mục tiêu lớn cho việc học và chinh phục chúng như một nhà chinh phạt thực thụ.',
   },
   9: {
-    title: 'SỐ 9: NGƯỜI NHÂN ÁI',
+    title: 'Số 9: Người nhân ái',
     overview:
       'Bao dung, nhân hậu, có tầm nhìn lớn. Em là người lý tưởng hóa, luôn muốn cống hiến để thế giới tốt đẹp hơn.',
     learningStyle:
@@ -248,7 +248,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Em mang trong mình những hoài bão lớn lao. Hãy nhìn thấy bức tranh toàn cảnh trong mỗi bài toán, em sẽ tìm thấy lời giải cho cả thế giới.',
   },
   11: {
-    title: 'SỐ 11: BẬC THẦY TRỰC GIÁC',
+    title: 'Số 11: Bậc thầy trực giác',
     overview:
       'Trực giác cực mạnh, nhạy cảm, tinh tế. Em sở hữu tiềm năng tâm linh và khả năng truyền cảm hứng lớn lao.',
     learningStyle:
@@ -271,7 +271,7 @@ const NUMEROLOGY_DATA: Record<number, Omit<NumerologyProfile, 'lifePathNumber'>>
       'Trực giác là món quà quý giá nhất của em. Hãy tin vào những cảm giác ban đầu khi giải quyết vấn đề, chúng thường dẫn em đến đáp án đúng.',
   },
   22: {
-    title: 'SỐ 22: KIẾN TRÚC SƯ ĐẠI TÀI',
+    title: 'Số 22: Kiến trúc sư đại tài',
     overview:
       'Tầm nhìn vĩ mô kết hợp hành động thực tế. Em có khả năng biến những giấc mơ lớn thành hiện thực.',
     learningStyle:

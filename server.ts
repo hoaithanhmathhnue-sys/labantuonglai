@@ -227,7 +227,7 @@ app.post('/api/ai/test-key', async (req: Request, res: Response) => {
 
     const { createGoogleAiClient } = await import('./src/server/geminiAdapter.ts');
     const ai = createGoogleAiClient(key, provider || 'gemini');
-    const testModel = model || 'gemini-3.6-flash';
+    const testModel = model || 'gemini-2.5-flash';
 
     const response = await ai.models.generateContent({
       model: testModel,
@@ -268,7 +268,7 @@ app.post('/api/ai/career-analysis', async (req: Request, res: Response) => {
     const { createGoogleAiClient, parseApiError, FALLBACK_MODELS } = await import('./src/server/geminiAdapter.ts');
     const ai = createGoogleAiClient(key, provider || 'gemini');
 
-    const selectedModel = model || 'gemini-3.6-flash';
+    const selectedModel = model || 'gemini-2.5-flash';
     const modelsToTry = [selectedModel, ...FALLBACK_MODELS.filter((m: string) => m !== selectedModel)];
 
     const systemInstruction = `Bạn là chuyên gia tư vấn hướng nghiệp giáo dục tại Việt Nam. Hãy phân tích chi tiết về nghề nghiệp được yêu cầu.
@@ -356,7 +356,7 @@ app.post('/api/ai/school-search', async (req: Request, res: Response) => {
     const { createGoogleAiClient, parseApiError, FALLBACK_MODELS } = await import('./src/server/geminiAdapter.ts');
     const ai = createGoogleAiClient(key, provider || 'gemini');
 
-    const selectedModel = model || 'gemini-3.6-flash';
+    const selectedModel = model || 'gemini-2.5-flash';
     const modelsToTry = [selectedModel, ...FALLBACK_MODELS.filter((m: string) => m !== selectedModel)];
 
     const systemInstruction = `Bạn là chuyên gia tư vấn tuyển sinh đại học Việt Nam. Hãy cung cấp thông tin chính xác, cập nhật nhất về các trường đại học, cao đẳng và ngành học.
@@ -459,7 +459,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server La Bàn Tương Lai running on http://0.0.0.0:${PORT}`);
+    console.log(`Server La bàn tương lai running on http://0.0.0.0:${PORT}`);
   });
 }
 

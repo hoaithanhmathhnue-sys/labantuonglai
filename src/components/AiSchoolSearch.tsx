@@ -39,11 +39,11 @@ export const AiSchoolSearch: React.FC<AiSchoolSearchProps> = ({ onOpenAiSettings
   const hasKey = isApiKeyConfigured(config);
 
   const suggestedQueries = [
-    'Ngành Công nghệ thông tin ở Hà Nội',
-    'Trường đào tạo Y khoa uy tín',
-    'Ngành Kinh tế đối ngoại điểm chuẩn',
-    'Học Thiết kế đồ họa ở TP.HCM',
-    'So sánh ngành Kỹ thuật phần mềm',
+    'Ngành công nghệ thông tin ở Hà Nội',
+    'Trường đào tạo y khoa uy tín',
+    'Ngành kinh tế đối ngoại điểm chuẩn',
+    'Học thiết kế đồ họa ở TP.HCM',
+    'So sánh ngành kỹ thuật phần mềm',
     'Trường có học bổng cho sinh viên giỏi',
   ];
 
@@ -114,7 +114,7 @@ export const AiSchoolSearch: React.FC<AiSchoolSearchProps> = ({ onOpenAiSettings
           </div>
           <div>
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              AI Tra cứu trường & ngành học
+              AI tra cứu trường & ngành học
               <span className="text-[10px] font-semibold bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">BETA</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">

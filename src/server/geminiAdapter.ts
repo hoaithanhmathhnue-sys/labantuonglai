@@ -10,11 +10,9 @@ export const isValidGoogleAiApiKey = (key: string): boolean => {
 };
 
 export const FALLBACK_MODELS = [
-  'gemini-3.6-flash',
-  'gemini-3.5-flash',
-  'gemini-3.5-flash-lite',
-  'gemini-3.1-flash-lite',
   'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-2.5-pro',
 ] as const;
 
 export type AiProvider = 'gemini' | 'agent-platform';
@@ -110,7 +108,7 @@ export async function runGeminiAdapter(
     };
   }
 
-  const selectedModel = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
+  const selectedModel = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
   try {
     const ai = createGoogleAiClient(apiKey);
@@ -239,4 +237,3 @@ Hãy tạo lời giải thích sư phạm, đề xuất hoạt động thử ngh
     };
   }
 }
-
