@@ -193,6 +193,234 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
   }
 });
 
+// --- AI FEATURE ENDPOINTS (Client-side API Key) ---
+
+const GOOGLE_AI_API_KEY_PATTERN = /^(?:AIzaSy|AQ)\S{8,}$/;
+
+// Helper: create client from user-supplied key
+function createClientFromRequest(apiKey: string, provider: string) {
+  const { createGoogleAiClient } = require('./src/server/geminiAdapter.ts');
+  return createGoogleAiClient(apiKey, provider as any);
+}
+
+// Helper: get key - prefer user-supplied, fallback to env
+function resolveApiKey(reqKey?: string): string | null {
+  if (reqKey && GOOGLE_AI_API_KEY_PATTERN.test(reqKey.trim())) {
+    return reqKey.trim();
+  }
+  const envKey = process.env.GEMINI_API_KEY;
+  if (envKey && envKey !== 'MY_GEMINI_API_KEY' && GOOGLE_AI_API_KEY_PATTERN.test(envKey)) {
+    return envKey;
+  }
+  return null;
+}
+
+// 1. Test API Key validity
+app.post('/api/ai/test-key', async (req: Request, res: Response) => {
+  try {
+    const { apiKey, provider, model } = req.body;
+    const key = resolveApiKey(apiKey);
+    if (!key) {
+      res.status(400).json({ success: false, error: 'API Key không hợp lệ.' });
+      return;
+    }
+
+    const { createGoogleAiClient } = await import('./src/server/geminiAdapter.ts');
+    const ai = createGoogleAiClient(key, provider || 'gemini');
+    const testModel = model || 'gemini-3.6-flash';
+
+    const response = await ai.models.generateContent({
+      model: testModel,
+      contents: 'Trả lời ngắn gọn: "OK" nếu bạn nhận được tin nhắn này.',
+      config: { maxOutputTokens: 32 },
+    });
+
+    const text = response.text?.trim();
+    if (text) {
+      res.json({ success: true, message: `API Key hoạt động! Model ${testModel} phản hồi thành công.` });
+    } else {
+      res.json({ success: false, error: 'API Key được chấp nhận nhưng model không phản hồi.' });
+    }
+  } catch (err: any) {
+    const { parseApiError } = await import('./src/server/geminiAdapter.ts');
+    const errorType = parseApiError(err);
+    const messages: Record<string, string> = {
+      INVALID_API_KEY: 'API Key không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại.',
+      QUOTA_EXCEEDED: 'Đã hết quota hoặc vượt giới hạn tốc độ API. Vui lòng đợi rồi thử lại.',
+      MODEL_OVERLOADED: 'Model đang quá tải nhưng API Key hợp lệ. Thử lại sau.',
+      NOT_FOUND: 'Model không tồn tại hoặc không khả dụng. Thử chọn model khác.',
+    };
+    res.status(400).json({ success: false, error: messages[errorType] || `Lỗi kiểm tra API Key: ${err.message}` });
+  }
+});
+
+// 2. AI Career Deep Analysis
+app.post('/api/ai/career-analysis', async (req: Request, res: Response) => {
+  try {
+    const { careerTitle, careerId, categoryName, coreSubjects, studentGrade, apiKey, provider, model } = req.body;
+    const key = resolveApiKey(apiKey);
+
+    if (!key) {
+      res.status(400).json({ error: 'Vui lòng cấu hình API Key trong Cài đặt AI để sử dụng tính năng này.' });
+      return;
+    }
+
+    const { createGoogleAiClient, parseApiError, FALLBACK_MODELS } = await import('./src/server/geminiAdapter.ts');
+    const ai = createGoogleAiClient(key, provider || 'gemini');
+
+    const selectedModel = model || 'gemini-3.6-flash';
+    const modelsToTry = [selectedModel, ...FALLBACK_MODELS.filter((m: string) => m !== selectedModel)];
+
+    const systemInstruction = `Bạn là chuyên gia tư vấn hướng nghiệp giáo dục tại Việt Nam. Hãy phân tích chi tiết về nghề nghiệp được yêu cầu.
+NGUYÊN TẮC:
+1. Thông tin chính xác, cập nhật với thực tế Việt Nam.
+2. Giọng văn sư phạm, ấm áp, dùng "em" để gọi học sinh.
+3. Trung thực về cả mặt tích cực lẫn thách thức.
+4. Mức lương tham khảo theo thị trường Việt Nam hiện tại.
+5. Lộ trình học tập phù hợp bối cảnh giáo dục Việt Nam.`;
+
+    const prompt = `Phân tích chi tiết nghề "${careerTitle}" thuộc nhóm "${categoryName}".
+Học sinh hiện đang lớp ${studentGrade}, quan tâm các môn: ${coreSubjects.join(', ')}.
+
+Trả về JSON với cấu trúc:
+{
+  "overview": "Mô tả tổng quan về nghề (3-4 câu)",
+  "dailyWork": "Mô tả công việc hàng ngày cụ thể (3-4 câu)",
+  "requiredSkills": ["Kỹ năng 1", "Kỹ năng 2", ...] (5-7 kỹ năng),
+  "salaryRange": "Mức lương khởi điểm đến có kinh nghiệm tại Việt Nam",
+  "growthOutlook": "Triển vọng phát triển trong 5-10 năm tới (2-3 câu)",
+  "educationPaths": ["Lộ trình 1", "Lộ trình 2", ...] (3-4 lộ trình),
+  "relatedCareers": ["Nghề liên quan 1", ...] (3-5 nghề),
+  "challengesAndRewards": "Thách thức và phần thưởng (3-4 câu)",
+  "adviceForStudent": "Lời khuyên cụ thể dành cho học sinh lớp ${studentGrade} (2-3 câu)"
+}`;
+
+    let lastError: any = null;
+    const RETRYABLE = new Set(['MODEL_OVERLOADED', 'SERVER_ERROR', 'TIMEOUT', 'NOT_FOUND']);
+
+    for (const m of modelsToTry) {
+      try {
+        const response = await ai.models.generateContent({
+          model: m,
+          contents: prompt,
+          config: {
+            systemInstruction,
+            responseMimeType: 'application/json',
+            maxOutputTokens: 8192,
+          },
+        });
+
+        const text = response.text?.trim();
+        if (!text) continue;
+
+        const parsed = JSON.parse(text);
+        res.json(parsed);
+        return;
+      } catch (error: any) {
+        lastError = error;
+        const errorType = parseApiError(error);
+        if (!RETRYABLE.has(errorType)) break;
+      }
+    }
+
+    res.status(500).json({ error: lastError?.message || 'Tất cả model đều thất bại. Vui lòng thử lại sau.' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Lỗi phân tích nghề nghiệp.' });
+  }
+});
+
+// 3. AI School & Major Search
+app.post('/api/ai/school-search', async (req: Request, res: Response) => {
+  try {
+    const { query, apiKey, provider, model } = req.body;
+    const key = resolveApiKey(apiKey);
+
+    if (!key) {
+      res.status(400).json({ error: 'Vui lòng cấu hình API Key trong Cài đặt AI để sử dụng tính năng tra cứu.' });
+      return;
+    }
+
+    if (!query || typeof query !== 'string' || query.trim().length < 3) {
+      res.status(400).json({ error: 'Vui lòng nhập nội dung tìm kiếm (tối thiểu 3 ký tự).' });
+      return;
+    }
+
+    const { createGoogleAiClient, parseApiError, FALLBACK_MODELS } = await import('./src/server/geminiAdapter.ts');
+    const ai = createGoogleAiClient(key, provider || 'gemini');
+
+    const selectedModel = model || 'gemini-3.6-flash';
+    const modelsToTry = [selectedModel, ...FALLBACK_MODELS.filter((m: string) => m !== selectedModel)];
+
+    const systemInstruction = `Bạn là chuyên gia tư vấn tuyển sinh đại học Việt Nam. Hãy cung cấp thông tin chính xác, cập nhật nhất về các trường đại học, cao đẳng và ngành học.
+NGUYÊN TẮC:
+1. Chỉ cung cấp thông tin về các trường CÓ THẬT tại Việt Nam.
+2. Điểm chuẩn lấy từ năm gần nhất có dữ liệu (ghi rõ năm).
+3. Học phí ước tính theo niên khóa gần nhất.
+4. Nếu không chắc chắn, ghi rõ "cần xác nhận trên website chính thức".
+5. Giọng văn sư phạm, hữu ích.`;
+
+    const prompt = `Tìm kiếm thông tin: "${query.trim()}"
+
+Trả về JSON với cấu trúc:
+{
+  "summary": "Tóm tắt tổng hợp kết quả tìm kiếm (2-4 câu)",
+  "searchQuery": "${query.trim()}",
+  "results": [
+    {
+      "schoolName": "Tên trường đầy đủ",
+      "location": "Địa chỉ / Khu vực",
+      "majors": [
+        {
+          "name": "Tên ngành",
+          "faculty": "Khoa / Viện",
+          "benchmarkScore": "Điểm chuẩn (ghi rõ năm và phương thức xét tuyển)",
+          "tuition": "Học phí ước tính / năm",
+          "admissionMethod": "Phương thức xét tuyển"
+        }
+      ],
+      "website": "URL website chính thức của trường",
+      "highlights": ["Điểm nổi bật 1", "Điểm nổi bật 2"],
+      "lastUpdated": "Thời gian tham khảo gần nhất"
+    }
+  ]
+}
+
+Trả về 3-5 trường phù hợp nhất. Nếu câu hỏi không liên quan đến giáo dục, trả về mảng results rỗng và summary giải thích.`;
+
+    let lastError: any = null;
+    const RETRYABLE = new Set(['MODEL_OVERLOADED', 'SERVER_ERROR', 'TIMEOUT', 'NOT_FOUND']);
+
+    for (const m of modelsToTry) {
+      try {
+        const response = await ai.models.generateContent({
+          model: m,
+          contents: prompt,
+          config: {
+            systemInstruction,
+            responseMimeType: 'application/json',
+            maxOutputTokens: 12288,
+          },
+        });
+
+        const text = response.text?.trim();
+        if (!text) continue;
+
+        const parsed = JSON.parse(text);
+        res.json(parsed);
+        return;
+      } catch (error: any) {
+        lastError = error;
+        const errorType = parseApiError(error);
+        if (!RETRYABLE.has(errorType)) break;
+      }
+    }
+
+    res.status(500).json({ error: lastError?.message || 'Tất cả model đều thất bại. Vui lòng thử lại sau.' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Lỗi tra cứu thông tin.' });
+  }
+});
+
 // --- VITE MIDDLEWARE OR STATIC SERVING ---
 async function startServer() {
   const isProduction = process.env.NODE_ENV === 'production';

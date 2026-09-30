@@ -21,6 +21,7 @@ import { StepReview } from './components/StepReview';
 import { StepResults } from './components/StepResults';
 import { TeacherAdminModal } from './components/TeacherAdminModal';
 import { VisitCounter } from './components/VisitCounter';
+import { ApiKeySettingsModal, loadAiConfig, isApiKeyConfigured, AiConfig } from './components/ApiKeySettingsModal';
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -28,6 +29,8 @@ export default function App() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [showTeacherModal, setShowTeacherModal] = useState<boolean>(false);
   const [enableTeacherAiMode, setEnableTeacherAiMode] = useState<boolean>(false);
+  const [showAiSettings, setShowAiSettings] = useState<boolean>(false);
+  const [aiConfig, setAiConfig] = useState<AiConfig>(loadAiConfig);
 
   // In-memory student state (never saved to localStorage per privacy requirement)
   const [profile, setProfile] = useState<StudentProfile>({
@@ -261,6 +264,9 @@ export default function App() {
             result={analysisResult}
             onEdit={() => goToStep(6)}
             onReset={handleResetSession}
+            aiEnabled={isApiKeyConfigured(aiConfig)}
+            studentGrade={profile.grade}
+            onOpenAiSettings={() => setShowAiSettings(true)}
           />
         )}
       </main>
@@ -271,7 +277,21 @@ export default function App() {
           <div>
             <strong className="text-white">La Bàn Tương Lai</strong> · Công cụ hướng nghiệp học đường THPT
           </div>
-          <VisitCounter />
+          <div className="flex items-center gap-3">
+            <VisitCounter />
+            <span className="text-slate-600">·</span>
+            <button
+              type="button"
+              onClick={() => setShowAiSettings(true)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-semibold rounded-full transition-colors cursor-pointer ${
+                isApiKeyConfigured(aiConfig)
+                  ? 'text-teal-300 bg-teal-900/40 hover:bg-teal-900/60 border border-teal-700/50'
+                  : 'text-slate-400 bg-slate-800 hover:bg-slate-700 border border-slate-600'
+              }`}
+            >
+              {isApiKeyConfigured(aiConfig) ? '✦ AI đã kích hoạt' : '⚙ Cài đặt AI'}
+            </button>
+          </div>
           <div className="text-[11px] text-slate-500">
             Dữ liệu lưu tạm thời theo phiên · Không sử dụng cho quyết định tuyển sinh bắt buộc
           </div>
@@ -285,6 +305,13 @@ export default function App() {
         onLoadTestFixture={handleLoadTestFixture}
         enableTeacherAiMode={enableTeacherAiMode}
         onToggleTeacherAiMode={setEnableTeacherAiMode}
+      />
+
+      {/* AI Settings Modal */}
+      <ApiKeySettingsModal
+        isOpen={showAiSettings}
+        onClose={() => setShowAiSettings(false)}
+        onConfigSaved={(config) => setAiConfig(config)}
       />
     </div>
   );
