@@ -323,9 +323,17 @@ Trả về JSON với cấu trúc:
       }
     }
 
-    res.status(500).json({ error: lastError?.message || 'Tất cả model đều thất bại. Vui lòng thử lại sau.' });
+    const { parseApiError: parseErr } = await import('./src/server/geminiAdapter.ts');
+    const errType = parseErr(lastError);
+    const friendlyMessages: Record<string, string> = {
+      INVALID_API_KEY: 'API Key không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại trong Cài đặt AI.',
+      QUOTA_EXCEEDED: 'Đã hết quota API. Vui lòng đợi vài phút rồi thử lại.',
+      MODEL_OVERLOADED: 'Server AI đang quá tải. Vui lòng thử lại sau ít phút.',
+      INVALID_ARGUMENT: 'API Key không hợp lệ. Vui lòng kiểm tra lại trong Cài đặt AI.',
+    };
+    res.status(500).json({ error: friendlyMessages[errType] || 'Không thể phân tích nghề nghiệp. Vui lòng thử lại sau.' });
   } catch (err: any) {
-    res.status(500).json({ error: err.message || 'Lỗi phân tích nghề nghiệp.' });
+    res.status(500).json({ error: 'Lỗi phân tích nghề nghiệp. Vui lòng thử lại.' });
   }
 });
 
@@ -415,9 +423,17 @@ Trả về 3-5 trường phù hợp nhất. Nếu câu hỏi không liên quan �
       }
     }
 
-    res.status(500).json({ error: lastError?.message || 'Tất cả model đều thất bại. Vui lòng thử lại sau.' });
+    const { parseApiError: parseErr2 } = await import('./src/server/geminiAdapter.ts');
+    const errType2 = parseErr2(lastError);
+    const friendlyMessages2: Record<string, string> = {
+      INVALID_API_KEY: 'API Key không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại trong Cài đặt AI.',
+      QUOTA_EXCEEDED: 'Đã hết quota API. Vui lòng đợi vài phút rồi thử lại.',
+      MODEL_OVERLOADED: 'Server AI đang quá tải. Vui lòng thử lại sau ít phút.',
+      INVALID_ARGUMENT: 'API Key không hợp lệ. Vui lòng kiểm tra lại trong Cài đặt AI.',
+    };
+    res.status(500).json({ error: friendlyMessages2[errType2] || 'Không thể tra cứu thông tin. Vui lòng thử lại sau.' });
   } catch (err: any) {
-    res.status(500).json({ error: err.message || 'Lỗi tra cứu thông tin.' });
+    res.status(500).json({ error: 'Lỗi tra cứu thông tin. Vui lòng thử lại.' });
   }
 });
 

@@ -59,13 +59,19 @@ export const AiCareerAnalysis: React.FC<AiCareerAnalysisProps> = ({
           model: freshConfig.selectedModel,
         }),
       });
-
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || 'Không thể phân tích nghề nghiệp. Vui lòng thử lại.');
+      // Safely parse response
+      const text = await res.text();
+      let data: any;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error('Server trả về dữ liệu không hợp lệ. Vui lòng thử lại.');
       }
 
-      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Không thể phân tích nghề nghiệp. Vui lòng thử lại.');
+      }
+
       setInsight(data);
     } catch (err: any) {
       setError(err.message || 'Đã có lỗi xảy ra.');

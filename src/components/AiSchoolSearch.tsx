@@ -77,7 +77,14 @@ export const AiSchoolSearch: React.FC<AiSchoolSearchProps> = ({ onOpenAiSettings
         }),
       });
 
-      const data = await res.json();
+      // Safely parse response
+      const text = await res.text();
+      let data: any;
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error('Server trả về dữ liệu không hợp lệ. Vui lòng thử lại.');
+      }
 
       if (!res.ok) {
         throw new Error(data.error || 'Không thể tìm kiếm. Vui lòng thử lại.');
