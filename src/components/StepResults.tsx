@@ -18,18 +18,27 @@ import {
   ChevronUp,
   X,
   Scale,
+  Key,
 } from 'lucide-react';
+import { AiCareerAnalysis } from './AiCareerAnalysis';
+import { AiSchoolSearch } from './AiSchoolSearch';
 
 interface StepResultsProps {
   result: AnalysisResult;
   onEdit: () => void;
   onReset: () => void;
+  aiEnabled?: boolean;
+  studentGrade?: number;
+  onOpenAiSettings?: () => void;
 }
 
 export const StepResults: React.FC<StepResultsProps> = ({
   result,
   onEdit,
   onReset,
+  aiEnabled = false,
+  studentGrade = 11,
+  onOpenAiSettings,
 }) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedForCompare, setSelectedForCompare] = useState<CareerSuggestion[]>([]);
@@ -390,6 +399,16 @@ export const StepResults: React.FC<StepResultsProps> = ({
                     <Scale className="w-3.5 h-3.5" />
                     <span>{isCompared ? 'Đã chọn so sánh' : 'Chọn so sánh'}</span>
                   </button>
+
+                  {aiEnabled && (
+                    <AiCareerAnalysis
+                      careerTitle={career.title}
+                      careerId={career.careerId}
+                      categoryName={career.categoryName}
+                      coreSubjects={career.coreSubjects}
+                      studentGrade={studentGrade}
+                    />
+                  )}
                 </div>
 
                 {/* Evidence & Reasons */}
@@ -458,6 +477,7 @@ export const StepResults: React.FC<StepResultsProps> = ({
               Dữ liệu trích từ đề án tuyển sinh chính thức do giáo viên kiểm duyệt. Không bịa điểm chuẩn hay khoa viện.
             </p>
           </div>
+          {aiEnabled && <AiSchoolSearch />}
         </div>
 
         {/* Disclaimer about benchmark score comparability */}
@@ -617,6 +637,31 @@ export const StepResults: React.FC<StepResultsProps> = ({
           ))}
         </ul>
       </div>
+
+      {/* AI ACTIVATION CTA (when not configured) */}
+      {!aiEnabled && onOpenAiSettings && (
+        <div className="p-5 rounded-2xl bg-gradient-to-r from-teal-50 to-sky-50 border border-teal-200/60 mb-6 print:hidden">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-sky-500 flex items-center justify-center shrink-0">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-sm font-bold text-slate-900 mb-1">Kích hoạt AI để trải nghiệm đầy đủ</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Nhập Gemini API Key (miễn phí) để mở khóa: <strong>phân tích chuyên sâu nghề nghiệp</strong>, <strong>tra cứu thông tin trường & ngành</strong>, và <strong>tư vấn cá nhân hóa</strong> bằng AI.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onOpenAiSettings}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-teal-600 to-sky-600 hover:from-teal-700 hover:to-sky-700 rounded-xl shadow-md transition-all cursor-pointer shrink-0"
+            >
+              <Key className="w-4 h-4" />
+              <span>Cài đặt API Key</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Action Footer (No Print) */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200 print:hidden">
